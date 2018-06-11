@@ -37,13 +37,20 @@ def extract_from_url(url):
         llist.append(filtered)
         X_data=create_test_field(llist)
         y_result=predict(X_data)
-        print(y_result)
-        return True
+        if y_result[0]==0:
+            print("news")
+            return "news"
+        elif y_result[0]==1:
+            print("sports")
+            return "sports"
+        elif y_result[0]==2:
+            print("gadgets")
+            return "gadgets"
         
     else:
         print("NO")
         return False
         
 
-result=extract_from_url("https://gadgets.ndtv.com/entertainment/features/netflix-best-tv-shows-india-top-50-1856543")  
+ 
     

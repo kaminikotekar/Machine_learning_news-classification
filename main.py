@@ -22,10 +22,7 @@ def index():
 def handle_req():
     text=request.form['url']
     result=extract_from_url(text)
-    if result==True:
-        return "YES"
-    else:
-        return "NO"
+    return result
     
 
 if __name__ == '__main__':
