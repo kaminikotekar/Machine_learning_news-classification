@@ -12,6 +12,7 @@ import openpyxl
 import os
 import re
 from nltk.stem import WordNetLemmatizer
+from News_classification_model import predict, create_test_field
 
 
 stop_words=set(stopwords.words('english'))
@@ -32,6 +33,11 @@ def extract_from_url(url):
                 new_filter.append(lemmatizer.lemmatize(word))
         filtered=" ".join(new_filter)
         print(filtered)
+        llist=[]
+        llist.append(filtered)
+        X_data=create_test_field(llist)
+        y_result=predict(X_data)
+        print(y_result)
         return True
         
     else:
@@ -39,5 +45,5 @@ def extract_from_url(url):
         return False
         
 
-    
+result=extract_from_url("https://gadgets.ndtv.com/entertainment/features/netflix-best-tv-shows-india-top-50-1856543")  
     

@@ -18,7 +18,7 @@ data_xls.to_csv('News_dataset_csv.csv', encoding='utf-8', index=False)
 corpus=[]
 lemmatizer = WordNetLemmatizer()
 dataset=pd.read_csv("News_dataset_csv.csv")
-for i in range(20):
+for i in range(30):
     filtered=re.sub('[^a-zA-Z]'," ",dataset['content'][i])
     filtered= filtered.lower()
     filtered= filtered.split()
@@ -31,11 +31,12 @@ for i in range(20):
 #Creatingthe bag of words model
 from sklearn.feature_extraction.text import CountVectorizer
 cv= CountVectorizer()
-X=  cv.fit_transform(corpus).toarray()
+cv.fit(corpus)
+X=cv.transform(corpus).toarray()
 
 #Target_label numpy array
 target_label=[]
-for i in range(20):
+for i in range(30):
     if "news" in dataset['class'][i]:
         target_label.append(0)
     elif "sports" in dataset['class'][i]:
@@ -63,3 +64,13 @@ cm = confusion_matrix(y_test, y_pred)
 
 from sklearn.metrics import accuracy_score
 accuracy= accuracy_score(y_test,y_pred)
+
+def predict(X_data):
+    y_result=classifier.predict(X_data)
+    return y_result
+    
+    
+def create_test_field(data):
+    X_test=cv.transform(data).toarray()
+    return X_test
+    
