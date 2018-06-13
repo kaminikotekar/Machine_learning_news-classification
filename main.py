@@ -6,8 +6,9 @@ Created on Sat Jun  9 21:11:30 2018
 
 """
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 from Extraction import extract_from_url
+from UrlCheck import url_check
 app = Flask(__name__)
 
 @app.route('/')
@@ -21,8 +22,11 @@ def index():
 @app.route('/index',methods=['POST'])
 def handle_req():
     text=request.form['url']
-    result=extract_from_url(text)
-    return result
+    if url_check(text):
+        result=extract_from_url(text)
+        return result
+    else:
+        return "invalid url try again"
     
 
 if __name__ == '__main__':

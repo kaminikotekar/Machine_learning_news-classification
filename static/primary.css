@@ -1,4 +1,4 @@
- body, html {
+body, html {
     height: 100%;
 }
 
@@ -10,8 +10,8 @@
   padding-top: 30px;
   padding-bottom: 30px;
 }
-  html { 
-background: url({{ url_for('static',file_name='Background.jpg')}} ) no-repeat center center fixed; 
+ html { 
+background: url("http://127.0.0.1:5000/static/img/Background.jpg") no-repeat center center fixed; 
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;
