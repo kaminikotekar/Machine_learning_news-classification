@@ -27,3 +27,6 @@ def url_check(url):
 
     except urllib.request.HTTPError:
         return False
+        
+    except URLError:
+        return False

@@ -9,6 +9,7 @@ Created on Sat Jun  9 21:11:30 2018
 from flask import Flask, render_template, request, url_for,json,jsonify
 from Extraction import extract_from_url
 from UrlCheck import url_check
+from Url_extend import url_mod
 app = Flask(__name__)
 
 #@app.route('/')
@@ -21,6 +22,7 @@ app = Flask(__name__)
 def handle_req():
     if request.method=='POST':
         text=request.form['url']
+        text=url_mod(text)
         if url_check(text):
             result=extract_from_url(text)
             return jsonify({'output':result})
