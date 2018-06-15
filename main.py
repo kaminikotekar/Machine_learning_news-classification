@@ -6,27 +6,33 @@ Created on Sat Jun  9 21:11:30 2018
 
 """
 
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for,json,jsonify
 from Extraction import extract_from_url
 from UrlCheck import url_check
 app = Flask(__name__)
 
-@app.route('/')
-@app.route('/index')
-
-def index():
-   return render_template('index.html')
+#@app.route('/')
+#@app.route('/index')
+#def index():
+#    return render_template('index.html')
    
-   
-@app.route('/',methods=['POST'])
-@app.route('/index',methods=['POST'])
+@app.route('/',methods=['GET','POST'])
+@app.route('/index',methods=['GET','POST'])
 def handle_req():
-    text=request.form['url']
-    if url_check(text):
-        result=extract_from_url(text)
-        return result
-    else:
-        return "invalid url try again"
+    if request.method=='POST':
+        text=request.form['url']
+        if url_check(text):
+            result=extract_from_url(text)
+            return jsonify({'output':result})
+        else:
+            result="Oops!! Invalid URL...Please try again"
+            return jsonify({'output':result})
+            
+    return render_template('index.html')
+        
+    
+        
+        
     
 
 if __name__ == '__main__':

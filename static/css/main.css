@@ -11,7 +11,7 @@ body, html {
   padding-bottom: 30px;
 }
  html { 
-background: url("http://127.0.0.1:5000/static/img/Background.jpg") no-repeat center center fixed; 
+background: url("../static/img/bg-min.jpg"); 
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;
