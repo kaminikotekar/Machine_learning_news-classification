@@ -24,6 +24,7 @@ def extract_from_url(url):
         soup=bs4.BeautifulSoup(res.text,'html.parser')
         content=soup.select("body")
         text = soup.get_text()
+        text=re.sub(r'(<.*>)|(<.*/>)|({.*})'," ", text)
         filtered=re.sub('[^a-zA-Z]'," ",text)
         filtered= filtered.lower()
         filtered= filtered.split()
