@@ -29,11 +29,20 @@
          -o-background-size: cover;
          background-size: cover;
          }
+         #correct{
+          visibility: hidden;
+         }
+         #incorrect{
+          visibility: hidden;
+         }
+         .container{
+               width: 600px;
+              }
       </style>
   </head>
   <body>
     <div class="container">
-<p class="h1 " style="color: #55DAFD">Is this a News article?? </p>
+<p class="h1 " style="color: #55DAFD">News Webpage Classifier </p>
 <p id="p" class="my-md-3" style="color: white">Enter url of any news website</p>
   <form id="#formc">
   <div class="form-group row">
@@ -52,10 +61,10 @@
   </div>
 
 
-  <button id="correct" class="btn btn-primary">
+  <button id="correct" class="btn btn-primary mt-2">
   Correct
 </button>
-<button id="incorrect" class="btn btn-danger">
+<button id="incorrect" class="btn btn-danger mt-2">
   Wrong
 </button>
 
@@ -88,6 +97,8 @@ $("#incorrect").click(function () {
                  $(".alerts").addClass("alert-primary");
                  $(".alerts").removeClass("alert-danger");
                  $(".alerts").html(result);
+                 $("#correct").css("visibility","visible");
+                 $("#incorrect").css("visibility","visible");
                  $("#correct").click(function(){
 
                   var url=$("#input").val();
