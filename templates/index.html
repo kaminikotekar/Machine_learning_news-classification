@@ -98,7 +98,8 @@ $("#incorrect").click(function () {
                                     data: JSON.stringify(data, null, '\t'),
                                     contentType: 'application/json;charset=UTF-8',
                                     success: function(result) {
-                                        console.log(result);
+                                        if(result=="success")
+                                          location.reload();
                                     }
         
 

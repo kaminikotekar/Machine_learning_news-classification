@@ -10,6 +10,7 @@ from flask import Flask, render_template, request, url_for,json,jsonify
 from Extraction import extract_data, classify_record
 from UrlCheck import url_check
 from Url_extend import url_mod
+from News_classification_model import add_record_to_csv
 app = Flask(__name__)
 
 #@app.route('/')
@@ -36,7 +37,10 @@ def handle_req():
 @app.route('/ajax_route',methods=['POST'])
 def update_dataset():
     if request.method=='POST':
-       print(request.json['content']+'\n\n\n'+request.json['class'])
+        result=add_record_to_csv(request.json['content'],request.json['class'])
+        if result:
+            print("success")
+            return jsonify("success")
              
     return render_template('index.html')
         

@@ -17,8 +17,9 @@ data_xls.to_csv('News_dataset_csv.csv', encoding='utf-8', index=False)
 #natural language processing
 corpus=[]
 lemmatizer = WordNetLemmatizer()
+
 dataset=pd.read_csv("News_dataset_csv.csv")
-for i in range(30):
+for i in range(len(dataset.index)):
     filtered=re.sub('[^a-zA-Z]'," ",dataset['content'][i])
     filtered= filtered.lower()
     filtered= filtered.split()
@@ -36,7 +37,7 @@ X=cv.transform(corpus).toarray()
 
 #Target_label numpy array
 target_label=[]
-for i in range(30):
+for i in range(len(dataset.index)):
     if "news" in dataset['class'][i]:
         target_label.append(0)
     elif "sports" in dataset['class'][i]:
@@ -53,7 +54,29 @@ X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size = 0.20, rand
 # Fitting Naive Bayes to the Training set
 from sklearn.naive_bayes import GaussianNB
 classifier = GaussianNB()
-classifier.fit(X_train, y_train)
+classifier.fit(X,Y)
+
+def train_data():
+    dataset=pd.read_csv("News_dataset_csv.csv")
+    for i in range(len(dataset.index)):
+        corpus.append(dataset['content'][i])
+    
+    cv.fit(corpus)
+    X=cv.transform(corpus).toarray()
+    
+    for i in range(len(dataset.index)):
+        if "news" in dataset['class'][i]:
+            target_label.append(0)
+        elif "sports" in dataset['class'][i]:
+            target_label.append(1)
+        elif "gadgets" in dataset['class'][i]:
+            target_label.append(2)
+        
+    Y = np.asarray(target_label)
+    
+    classifier.fit(X,Y)
+    return True
+    
 
 # Predicting the Test set results
 y_pred = classifier.predict(X_test)
@@ -73,4 +96,11 @@ def predict(X_data):
 def create_test_field(data):
     X_test=cv.transform(data).toarray()
     return X_test
+    
+def add_record_to_csv(content,target_label):
+    df=pd.DataFrame([[content,target_label]],columns=["content","class"]) #cr4eated a data frame
+    with open('News_dataset_csv.csv', 'a') as f:    # appending dataframe to csv
+        df.to_csv(f, header=False)
+    result=train_data()
+    return True
     
