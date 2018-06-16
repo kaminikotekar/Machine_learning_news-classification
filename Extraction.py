@@ -17,8 +17,8 @@ from News_classification_model import predict, create_test_field
 
 stop_words=set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
-
-def extract_from_url(url):
+        
+def extract_data(url):
     res=requests.get(url)
     if res.status_code == requests.codes.ok:
         soup=bs4.BeautifulSoup(res.text,'html.parser')
@@ -33,24 +33,26 @@ def extract_from_url(url):
             if word not in stop_words:
                 new_filter.append(lemmatizer.lemmatize(word))
         filtered=" ".join(new_filter)
-        print(filtered)
-        llist=[]
-        llist.append(filtered)
-        X_data=create_test_field(llist)
-        y_result=predict(X_data)
-        if y_result[0]==0:
-            print("news")
-            return "news"
-        elif y_result[0]==1:
-            print("sports")
-            return "sports"
-        elif y_result[0]==2:
-            print("gadgets")
-            return "gadgets"
+        return filtered
         
-    else:
-        print("NO")
-        return False
+def classify_record(content):
+    print(content)
+    llist=[]
+    llist.append(content)
+    X_data=create_test_field(llist)
+    y_result=predict(X_data)
+    if y_result[0]==0:
+        print("news")
+        return "news"
+    elif y_result[0]==1:
+        print("sports")
+        return "sports"
+    elif y_result[0]==2:
+        print("gadgets")
+        return "gadgets"
+        
+   
+    
         
 
  

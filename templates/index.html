@@ -91,7 +91,7 @@ $("#incorrect").click(function () {
                  $("#correct").click(function(){
 
                   var url=$("#input").val();
-                  var data={"url":url,"class":response.output};
+                  var data={"url":url,"class":response.output,"content":response.content };
                   $.ajax({
                                     type : "POST",
                                     url : "{{ url_for('update_dataset') }}",
