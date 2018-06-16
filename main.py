@@ -31,6 +31,13 @@ def handle_req():
             return jsonify({'output':result})
             
     return render_template('index.html')
+    
+@app.route('/ajax_route',methods=['POST'])
+def update_dataset():
+    if request.method=='POST':
+        print(request.json['class'])
+    
+    return render_template('index.html')
         
     
         
