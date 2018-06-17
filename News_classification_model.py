@@ -11,14 +11,22 @@ import re
 from nltk.stem import WordNetLemmatizer
 
 #xlsl to csv
-data_xls = pd.read_excel('News_dataset.xlsx', 'Sheet', index_col=None)
-data_xls.to_csv('News_dataset_csv.csv', encoding='utf-8', index=False)
+#data_xls = pd.read_excel('News_dataset.xlsx', 'Sheet', index_col=None)
+#data_xls.to_csv('News_dataset_csv.csv', encoding='utf-8', index=False)
 
 #natural language processing
 corpus=[]
 lemmatizer = WordNetLemmatizer()
+try:
+    dataset=pd.read_csv("News_dataset_csv.csv")
+    
+except OSError:
+    data_xls = pd.read_excel('News_dataset.xlsx', 'Sheet', index_col=None) #read xlsx
+    data_xls.to_csv('News_dataset_csv.csv', encoding='utf-8', index=False) #xlsx to csv
+    dataset=pd.read_csv("News_dataset_csv.csv")
+    
 
-dataset=pd.read_csv("News_dataset_csv.csv")
+#nlp
 for i in range(len(dataset.index)):
     filtered=re.sub('[^a-zA-Z]'," ",dataset['content'][i])
     filtered= filtered.lower()
