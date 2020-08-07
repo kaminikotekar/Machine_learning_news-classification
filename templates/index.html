@@ -15,7 +15,6 @@
       <!-- <link rel="stylesheet" type="text/css" href=" {{ url_for('static',filename='main.css')}} ">  -->
       <!-- <script type="text/javascript" src="../static/js/jquery_ui_go/external/jquery/jquery.js"></script> -->
 
-      <!-- !!!!!!!!! Used jQuery v2.1.1 please check with the requirements !!!!!!!!!!-->
       <script type="text/javascript" src="../static/js/jquery.js"></script>
       <!-- <script src=" {{ url_for('static',filename='/js/jquery_ui_go/external/jquery/jquery.js')}} " type="text/javascript"></script> -->
       <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
@@ -36,41 +35,51 @@
    <body>
       <div class="container">
          <p class="h1 " style="color: #55DAFD">Is this a News article?? </p>
-         <p id="p" class="my-md-3" style="color: white">Enter url of any news website</p>
-         <form id="#formc" action="{{ url_for('handle_req') }}" method="POST">
+         <p id="p" class="my-md-3" style="color: white">Enter text of any news website</p>
+         <div class="fluid-container">
             <div class="form-group row">
                <div class="col-sm-9 mb-2">
-                  <input type="text" name="url" class="form-control" id="Input" aria-describedby="emailHelp" placeholder="Url">
+                  <textarea rows="10" col="20" type="text" class="form-control" id="Input" aria-describedby="emailHelp" placeholder="Paste News article here"></textarea>
                </div>
                <div class="col-sm-2 mb-2">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary" onclick="send_to_api()">Submit</button>
                </div>
             </div>
-         </form>
-         <div class="alerts">
+            <div id="alerts"></div>
          </div>
       </div>
+      <br>
+      
+      
 
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-      <script type="text/javascript">
-        $("form").submit(function(){
-          var url= $("#input").val();
-          $.ajax({
-            url: '/index',
-            type: 'post',
-            data: $('form').serialize(),
-            success: function(response) {
-              $(".alerts").html(response.result);
-              alert("done");
-            },
-            error: function(error) {
-              console.log(error);
-            }
-          });
-        });
-      </script>
+      <script>
+         function send_to_api() {
+             var id = document.getElementById("Input").value;
+             var url = "http://127.0.0.1:5000/api/text?txt='" + id + "'";
+             $.getJSON(url, function( data ) {
+               var items = [];
+               $.each( data, function( key, val ) {
+                 showAlert( val, "alert-success" )
+                 items.push( "<li id='" + key + "'>" + val + "</li>" );
+               });
+             });
+         }
+         function showAlert( message, alerttype ) {
+            $('#alerts').append( $('#alerts').append(
+            '<div id="alertdiv" class="alert alert-dismissible ' +  alerttype + '">' +
+                  '<a class="close" data-dismiss="alert" aria-label="close" >×</a>' +
+                  '<span> Predicted Category : ' + message + '</span>' + 
+            '</div>' )
+            );
+            // close it in 30 secs
+            setTimeout( function() {
+               $("#alertdiv").remove();
+            }, 3000);
+         }
+     </script>
    </body>
 </html>
